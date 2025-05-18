@@ -43,5 +43,5 @@ jobs:
           find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGN_IDENTITY = ".*";/CODE_SIGN_IDENTITY = "";/g' {} \;
 
       - name: 👁️ Run Unit Tests with Tuist
-        run: mise x -- tuist test --platform ios --device "iPhone 16" --os "18.0"
+        run: mise x -- tuist test --platform ios --device "iPhone 16" --os "17.5"
 
