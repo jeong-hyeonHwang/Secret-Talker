@@ -27,8 +27,10 @@ jobs:
 
       - name: Install Tuist
         run: |
-            export TUIST_VERSION=4.8.1
-            curl -Ls https://install.tuist.io | bash
+            brew install mise
+            echo 'tuist = "4.80.1"' > .mise.toml
+            mise install
+            mise use -g
 
       - name: 👁️ Generate project
         run: tuist generate
