@@ -42,12 +42,6 @@ jobs:
           find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGNING_ALLOWED = YES;/CODE_SIGNING_ALLOWED = NO;/g' {} \;
           find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGN_IDENTITY = ".*";/CODE_SIGN_IDENTITY = "";/g' {} \;
 
-      - name: 👁️ Run Unit Tests
-        run: |
-          xcodebuild test \
-            -workspace SecretTalker.xcworkspace \
-            -scheme SecretTalker \
-            -destination 'platform=iOS Simulator,name=iPhone 13' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+      - name: 👁️ Run Unit Tests with Tuist
+        run: mise x -- tuist test --platform ios --device "iPhone 13" --os "18.0"
+
