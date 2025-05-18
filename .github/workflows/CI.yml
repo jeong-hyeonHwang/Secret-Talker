@@ -26,7 +26,9 @@ jobs:
         run: swiftlint --strict
 
       - name: Install Tuist
-        run: curl -Ls https://install.tuist.io | bash
+        run: |
+            export TUIST_VERSION=4.8.1
+            curl -Ls https://install.tuist.io | bash
 
       - name: 👁️ Generate project
         run: tuist generate
