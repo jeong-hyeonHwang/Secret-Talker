@@ -1,0 +1,27 @@
+# 린트 대상 디렉토리
+included:
+  - Sources
+  - Tests
+
+# 제외 디렉토리
+excluded:
+  - Carthage
+  - Pods
+  - .git
+  - .build
+
+disabled_rules:
+  - trailing_whitespace         # 줄 끝 공백
+  - file_length                 # 파일 길이 제한
+  - type_body_length            # 클래스/구조체 본문 길이 제한
+  - function_body_length        # 함수 길이 제한
+  - identifier_name             # 짧은 변수명 제한 (ex. x, i, e 등)
+  - force_cast
+  - implicitly_unwrapped_optional  # 일부 DI, 테스트 상황에서 필요
+  - line_length                 # 라인 길이 제한
+
+opt_in_rules:
+  - unused_declaration          # 안 쓰는 변수/메서드 감지
+  - closure_spacing             # 클로저 내부 간격 통일
+  - attributes                  # @available 등 attribute 스타일
+  - explicit_self               # self 명시 강제
