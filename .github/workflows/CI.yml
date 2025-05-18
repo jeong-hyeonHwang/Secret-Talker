@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-test-lint:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby (for Bundler if needed)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: 👁️ Run SwiftLint
+        run: swiftlint --strict
+
+      - name: Install Tuist
+        run: curl -Ls https://install.tuist.io | bash
+
+      - name: 👁️ Generate project
+        run: tuist generate
+
+      - name: 👁️ Run Unit Tests
+        run: |
+          xcodebuild test \
+            -project SecretTalker.xcodeproj \
+            -scheme SecretTalker \
+            -destination 'platform=iOS Simulator,name=iPhone 13'
