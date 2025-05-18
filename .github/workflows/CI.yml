@@ -25,15 +25,16 @@ jobs:
       - name: 👁️ Run SwiftLint
         run: swiftlint --strict
 
-      - name: Install Tuist
-        run: |
-            brew install mise
-            echo 'tuist = "4.80.1"' > .mise.toml
-            mise install
-            mise use -g
+      - name: Install Mise
+      run: |
+          curl https://mise.run | sh
+          mise install
+          
+      - name: Install Tuist dependencies
+        run: mise x -- tuist install
 
       - name: 👁️ Generate project
-        run: tuist generate
+        run: mise x -- tuist generate
 
       - name: 👁️ Run Unit Tests
         run: |
