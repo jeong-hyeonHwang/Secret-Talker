@@ -19,6 +19,7 @@ disabled_rules:
   - force_cast
   - implicitly_unwrapped_optional  # 일부 DI, 테스트 상황에서 필요
   - line_length                 # 라인 길이 제한
+  - trailing_newline            # 파일 마지막 줄 공백 제한
 
 opt_in_rules:
   - unused_declaration          # 안 쓰는 변수/메서드 감지
