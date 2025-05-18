@@ -36,6 +36,12 @@ jobs:
       - name: 👁️ Generate project
         run: mise x -- tuist generate
 
+      - name: Modify project for CI
+        run: |
+          find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGNING_REQUIRED = YES;/CODE_SIGNING_REQUIRED = NO;/g' {} \;
+          find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGNING_ALLOWED = YES;/CODE_SIGNING_ALLOWED = NO;/g' {} \;
+          find . -name "*.pbxproj" -exec sed -i '' 's/CODE_SIGN_IDENTITY = ".*";/CODE_SIGN_IDENTITY = "";/g' {} \;
+
       - name: 👁️ Run Unit Tests
         run: |
           xcodebuild test \
