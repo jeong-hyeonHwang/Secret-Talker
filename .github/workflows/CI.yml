@@ -39,7 +39,7 @@ jobs:
       - name: 👁️ Run Unit Tests
         run: |
           xcodebuild test \
-            -project SecretTalker.xcodeproj \
+            -workspace SecretTalker.xcworkspace \
             -scheme SecretTalker \
             -destination 'platform=iOS Simulator,name=iPhone 13' \
             CODE_SIGN_IDENTITY="" \
