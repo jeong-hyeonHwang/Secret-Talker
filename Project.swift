@@ -10,12 +10,20 @@ let project = Project(
             bundleId: "io.tuist.SecretTalker",
             infoPlist: .extendingDefault(
                 with: [
-                    "UILaunchStoryboardName": "LaunchScreen.storyboard",
+                    "UILaunchStoryboardName": "LaunchScreen"
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
-            dependencies: []
+            dependencies: [],
+            settings: .settings(
+                base: [
+                    "CODE_SIGN_IDENTITY": "",
+                    "CODE_SIGNING_REQUIRED": "NO",
+                    "CODE_SIGNING_ALLOWED": "NO",
+                    "DEVELOPMENT_TEAM": ""
+                ]
+            )
         ),
         .target(
             name: "SecretTalkerTests",
@@ -25,7 +33,15 @@ let project = Project(
             infoPlist: .default,
             sources: ["Tests/**"],
             resources: [],
-            dependencies: [.target(name: "SecretTalker")]
-        ),
+            dependencies: [.target(name: "SecretTalker")],
+            settings: .settings(
+                base: [
+                    "CODE_SIGN_IDENTITY": "",
+                    "CODE_SIGNING_REQUIRED": "NO",
+                    "CODE_SIGNING_ALLOWED": "NO",
+                    "DEVELOPMENT_TEAM": ""
+                ]
+            )
+        )
     ]
 )
