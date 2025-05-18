@@ -26,7 +26,7 @@ jobs:
         run: swiftlint --strict
 
       - name: Install Mise
-      run: |
+        run: |
           curl https://mise.run | sh
           mise install
           
