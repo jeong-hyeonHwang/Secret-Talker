@@ -7,41 +7,26 @@ let project = Project(
             name: "SecretTalker",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.SecretTalker",
+            bundleId: "com.jhHwang.SecretTalker",
             infoPlist: .extendingDefault(
                 with: [
-                    "UILaunchStoryboardName": "LaunchScreen"
+                    "UILaunchStoryboardName": "LaunchScreen",
+                    "NSCameraUsageDescription": "QR 코드를 인식하기 위해 카메라 접근이 필요합니다."
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
-            dependencies: [],
-            settings: .settings(
-                base: [
-                    "CODE_SIGN_IDENTITY": "",
-                    "CODE_SIGNING_REQUIRED": "NO",
-                    "CODE_SIGNING_ALLOWED": "NO",
-                    "DEVELOPMENT_TEAM": ""
-                ]
-            )
+            dependencies: []
         ),
         .target(
             name: "SecretTalkerTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.SecretTalkerTests",
+            bundleId: "com.jhHwang.SecretTalkerTests",
             infoPlist: .default,
             sources: ["Tests/**"],
             resources: [],
-            dependencies: [.target(name: "SecretTalker")],
-            settings: .settings(
-                base: [
-                    "CODE_SIGN_IDENTITY": "",
-                    "CODE_SIGNING_REQUIRED": "NO",
-                    "CODE_SIGNING_ALLOWED": "NO",
-                    "DEVELOPMENT_TEAM": ""
-                ]
-            )
+            dependencies: [.target(name: "SecretTalker")]
         )
     ]
 )

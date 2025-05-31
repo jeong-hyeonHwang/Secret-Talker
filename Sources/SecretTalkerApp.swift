@@ -4,7 +4,8 @@ import SwiftUI
 struct SecretTalkerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
+        .modelContainer(for: SecretMessage.self)
     }
 }
