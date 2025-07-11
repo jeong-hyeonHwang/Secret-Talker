@@ -37,15 +37,15 @@ struct ReceivedMessageListView: View {
                 .padding(8)
             
             Text("스캔 기록")
-                .font(.headline)
+                .font(.orbitronHeadline)
             
             List {
-                ForEach(qrList) { qr in
-                    Text(qr.encryptedText.prefix(24) + "…")
-                }
-                .onDelete(perform: delete)
+                Section {
+                    ForEach(qrList) { qr in
+                        Text(qr.encryptedText.prefix(24) + "…")
+                    }.onDelete(perform: delete)
+                }.listStyle(DefaultListStyle())
             }
-
         }
         .frame(maxHeight: isExpanded ? .infinity : 240)
         .background(.ultraThinMaterial)

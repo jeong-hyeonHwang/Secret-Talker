@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct RoundedShapeButton: View {
-    let color: Color
+    var color: Color = Color.backgroundColor
     let action: () -> Void
     let title: String
-    let cornerRadius: CGFloat
+    let cornerRadius: CGFloat = 10
 
     var body: some View {
         Button(action: action) {
             Text(title)
-                .foregroundColor(.white)
+                .foregroundColor(.foregroundColor)
                 .bold()
                 .frame(height: 50)
                 .frame(maxWidth: .infinity)
@@ -26,7 +26,7 @@ struct RoundedShapeButton: View {
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(Color.black.opacity(0.2), lineWidth: 1)
+                        .stroke(Color.foregroundColor, lineWidth: 2)
                 )
         }
     }

@@ -20,7 +20,7 @@ struct QRView: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("ENCRYPTION")
-                .font(.title2)
+                .font(.orbitronTitle2)
                 .bold()
 
             if let uiImage = generateQRCode(from: message) {

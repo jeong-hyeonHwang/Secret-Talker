@@ -10,15 +10,15 @@ import SwiftUI
 struct RootView: View {
     var body: some View {
         TabView {
-//            OpenerView()
-//                .tabItem {
-//                    Label("Opener", systemImage: "wand.and.sparkles")
-//                }
-//            
             MakerView()
                 .tabItem {
                     Label("Maker", systemImage: "pencil.and.scribble")
                 }
+            OpenerView()
+                .tabItem {
+                    Label("Opener", systemImage: "wand.and.sparkles")
+                }
+            
         }
     }
 }

@@ -23,20 +23,13 @@ struct CreateMessageView: View {
                     Spacer()
                     
                     InputFeedbackView(creationStatus: $messageViewModel.creationStatus)
-                    Button(action: handleSubmit) {
-                        Text("SUBMIT")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.purple)
-                            .cornerRadius(10)
-                    }
+                    RoundedShapeButton(
+                        action: { handleSubmit() },
+                        title: "Mitte"
+                    )
                     .padding(.horizontal)
                 }
                 .padding(.top)
-                .frame(width: geo.size.width * 0.95)
-                Rectangle().fill(Color.red)
-                    .frame(width: geo.size.width * 0.05)
             }
         }
     }

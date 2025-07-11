@@ -16,17 +16,17 @@ struct MessageView: View {
             Color.green.opacity(0.9).ignoresSafeArea()
             VStack(spacing: 20) {
                 Text(message)
-                    .font(.largeTitle)
+                    .font(.orbitronLargeTitle)
                     .bold()
-                    .foregroundColor(.white)
+                    .foregroundColor(.backgroundColor)
 
                 Button(action: {
                     isPresented = false
                 }) {
                     Text("Dismiss")
-                        .font(.headline)
+                        .font(.orbitronHeadline)
                         .padding()
-                        .background(Color.white)
+                        .background(Color.backgroundColor)
                         .cornerRadius(10)
                 }
             }
