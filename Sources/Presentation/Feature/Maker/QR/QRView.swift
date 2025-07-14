@@ -8,11 +8,8 @@
 import SwiftUI
 import CoreImage.CIFilterBuiltins
 
-import SwiftUI
-import CoreImage.CIFilterBuiltins
-
 struct QRView: View {
-    let message: SecretMessage
+    let message: CreatedSecretMessage
 
     private let context = CIContext()
     private let filter = CIFilter.qrCodeGenerator()
@@ -20,7 +17,7 @@ struct QRView: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("ENCRYPTION")
-                .font(.title2)
+                .font(.orbitronTitle2)
                 .bold()
 
             if let uiImage = generateQRCode(from: message) {
@@ -38,7 +35,7 @@ struct QRView: View {
         .padding()
     }
 
-    func generateQRCode(from message: SecretMessage) -> UIImage? {
+    func generateQRCode(from message: CreatedSecretMessage) -> UIImage? {
         let payload = QRPayload(
                 encryptedText: message.encryptedText,
                 salt: message.salt

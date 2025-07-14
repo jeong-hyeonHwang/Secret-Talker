@@ -8,25 +8,25 @@
 import SwiftUI
 
 public struct UnlockView: View {
-    let message: SecretMessage
+    let message: CreatedSecretMessage
     let onSuccess: (String) -> Void
     
     @State private var shapeRatio = 0.7
     @State private var password = ""
-    @State private var feedbackText: String? = nil
+    @State private var feedbackText: String?
     
     public var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
                 // 입력 영역
                 VStack(spacing: 16) {
-                    ShapeButton(shape: Circle(), color: .red, action: {
+                    ShapeButton(shape: Circle(), action: {
                         password += "0"
                     }, ratio: shapeRatio)
-                    ShapeButton(shape: PolygonShape(sides: 3), color: .green, action: {
+                    ShapeButton(shape: PolygonShape(sides: 3), action: {
                         password += "1"
                     }, ratio: shapeRatio)
-                    ShapeButton(shape: Rectangle(), color: .blue, action: {
+                    ShapeButton(shape: Rectangle(), action: {
                         password += "2"
                     }, ratio: shapeRatio)
                 }
@@ -39,18 +39,18 @@ public struct UnlockView: View {
                         if password.isEmpty {
                             Text("ENTER PASSWORD")
                                 .foregroundColor(.gray)
-                                .font(.title)
+                                .font(.orbitronTitle)
                                 .italic()
                         } else {
                             Text(password)
                                 .foregroundColor(.primary)
-                                .font(.title)
+                                .font(.orbitronTitle)
                         }
                     }
                     
                     Text(feedbackText ?? " ")
-                        .foregroundColor(feedbackText == "CORRECT" ? .green : .red)
-                        .font(.headline)
+                        .foregroundColor(feedbackText == "Rectum est." ? .green : .red)
+                        .font(.orbitronHeadline)
                         .opacity(feedbackText == nil ? 0 : 1)
                         .fixedSize()
                         .animation(.easeInOut, value: feedbackText)
@@ -58,10 +58,8 @@ public struct UnlockView: View {
                     Spacer()
                     
                     RoundedShapeButton(
-                        color: .purple,
                         action: { checkPasswordAndDecrypt() },
-                        title: "Mitte",
-                        cornerRadius: 45
+                        title: "Mitte"
                     )
                     .padding(.horizontal)
                     

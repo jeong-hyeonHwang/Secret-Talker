@@ -9,41 +9,58 @@ import SwiftUI
 import SwiftData
 
 struct MakerView: View {
-    @Query var messages: [SecretMessage]
+    @Query var messages: [CreatedSecretMessage]
     @Environment(\.modelContext) private var modelContext
     
     @State private var isPresentingNew = false
+    @State private var selectedMessage: CreatedSecretMessage?
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(messages) { message in
-                    NavigationLink(destination: QRView(message: message)) {
-                        VStack(alignment: .leading) {
-                            Text("🔒 \(message.salt)")
-                                .font(.caption)
-                                .foregroundColor(.gray)
+        GeometryReader { geo in
+            NavigationView {
+                VStack(spacing: 4) {
+                    Spacer(minLength: 4)
+                    RotatingShapeButtonView()
+                        .frame(height: geo.size.height * 0.38)
+                    List {
+                        ForEach(messages) { message in
+                            MessageRowView(message: message) {
+                                selectedMessage = message
+                            }
+//                            .listRowBackground(Color.clear) // 배경 투명화
+                            .listRowInsets(EdgeInsets())
+                        }
+                        .onDelete(perform: delete)
+                    }
+                    .padding(.horizontal, -12)
+                    .frame(height: geo.size.height * 0.62)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Verba arcana")
+                                .font(.orbitronTitle)
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                isPresentingNew = true
+                            } label: {
+                                Image(systemName: "plus")
+                            }
                         }
                     }
-                }
-                .onDelete(perform: delete)
-            }
-            .navigationTitle("Verba arcana")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        isPresentingNew = true
-                    } label: {
-                        Image(systemName: "plus")
+                    .sheet(isPresented: $isPresentingNew) {
+                        let viewModel = MessageViewModel()
+                        CreateMessageView(messageViewModel: viewModel) { newMessage in
+                            modelContext.insert(newMessage)
+                        }
+                    }
+                    .sheet(item: $selectedMessage) { message in
+                        QRView(message: message)
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
                     }
                 }
             }
-            .sheet(isPresented: $isPresentingNew) {
-                let viewModel = MessageViewModel()
-                CreateMessageView(messageViewModel: viewModel) { newMessage in
-                    modelContext.insert(newMessage)
-                }
-            }
+            .scrollContentBackground(.hidden)
         }
     }
     

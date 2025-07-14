@@ -9,14 +9,16 @@ import Foundation
 import SwiftData
 
 @Model
-class SecretMessage: Identifiable {
+class CreatedSecretMessage: Identifiable {
     @Attribute(.unique) var id: UUID
-    var encryptedText: String
-    var salt: String
+    private(set) var encryptedText: String
+    private(set) var salt: String
+    private(set) var createdDate: Date
     
     init(id: UUID = UUID(), encryptedText: String, salt: String) {
         self.id = id
         self.encryptedText = encryptedText
         self.salt = salt
+        self.createdDate = Date()
     }
 }

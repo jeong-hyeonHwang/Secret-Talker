@@ -7,9 +7,6 @@
 
 import Foundation
 import CryptoKit
-
-import Foundation
-import CryptoKit
 import CommonCrypto
 
 struct CryptoManager {
@@ -64,7 +61,6 @@ struct CryptoManager {
         }
     }
 
-    
     static func generateSalt(length: Int = 16) -> Data {
         var salt = Data(count: length)
         let result = salt.withUnsafeMutableBytes {

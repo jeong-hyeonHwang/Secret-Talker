@@ -13,10 +13,17 @@ struct PolygonShape: Shape {
     func path(in rect: CGRect) -> Path {
         guard sides >= 3 else { return Path() }
 
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-        let correction: CGFloat = (sides == 3) ? 1.15 : 1.0
+        var center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = min(rect.width, rect.height) / 2
         let angle = 2 * .pi / CGFloat(sides)
+
+        // 삼각형 보정
+        if sides == 3 {
+            let side = 2 * radius * sin(.pi / 3)
+            let height = side * sqrt(3) / 2
+            let correction = height / 3
+            center.y += correction
+        }
 
         var path = Path()
         for i in 0..<sides {
@@ -28,7 +35,9 @@ struct PolygonShape: Shape {
                 path.addLine(to: CGPoint(x: x, y: y))
             }
         }
+
         path.closeSubpath()
         return path
     }
 }
+

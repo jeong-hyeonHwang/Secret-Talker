@@ -16,6 +16,16 @@ let project = Project(
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
+            scripts: [
+                    .pre(script: """
+export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
+if which swiftlint >/dev/null; then
+  swiftlint
+else
+  echo "warning: SwiftLint not installed"
+fi
+""", name: "SwiftLint")
+                  ],
             dependencies: []
         ),
         .target(

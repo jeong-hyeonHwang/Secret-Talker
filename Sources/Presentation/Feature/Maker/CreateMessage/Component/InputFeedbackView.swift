@@ -11,7 +11,7 @@ struct InputFeedbackView: View {
     @Binding var creationStatus: CreationStatus
     var body: some View {
         Text(creationStatus.instruction)
-            .font(.subheadline)
+            .font(.orbitronSubheadline)
             .foregroundColor(creationStatus.color)
     }
 }
