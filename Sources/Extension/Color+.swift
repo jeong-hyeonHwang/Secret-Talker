@@ -5,7 +5,7 @@
 //  Created by 황정현 on 7/11/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 extension Color {
     enum CustomColor {
