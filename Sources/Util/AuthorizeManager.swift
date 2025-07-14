@@ -10,7 +10,7 @@ import LocalAuthentication
 
 @MainActor
 final class AuthorizeManager: ObservableObject {
-    @Published var isAuthenticated: Bool? = nil
+    @Published var isAuthenticated: Bool?
 
     func authenticate() {
         let context = LAContext()
@@ -19,7 +19,7 @@ final class AuthorizeManager: ObservableObject {
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "암호화된 메시지를 보기 위해 Face ID 인증이 필요합니다."
 
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authError in
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
                 DispatchQueue.main.async {
                     self.isAuthenticated = success
                 }

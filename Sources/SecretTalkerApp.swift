@@ -7,6 +7,6 @@ struct SecretTalkerApp: App {
             RootView()
                 .tint(.primary)
         }
-        .modelContainer(for: SecretMessage.self)
+        .modelContainer(for: CreatedSecretMessage.self)
     }
 }

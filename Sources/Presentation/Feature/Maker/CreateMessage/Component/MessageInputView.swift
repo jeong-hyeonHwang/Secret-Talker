@@ -11,7 +11,7 @@ struct MessageInputView: View {
     @Binding var message: String
     
     var body: some View {
-        HStack() {
+        HStack {
             // 침묵 속에 너의 목소리를 보내라.
             Text("Vocem mitte per silentium")
                 .font(.orbitronTitle2)

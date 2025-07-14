@@ -8,12 +8,12 @@
 import SwiftUI
 
 public struct UnlockView: View {
-    let message: SecretMessage
+    let message: CreatedSecretMessage
     let onSuccess: (String) -> Void
     
     @State private var shapeRatio = 0.7
     @State private var password = ""
-    @State private var feedbackText: String? = nil
+    @State private var feedbackText: String?
     
     public var body: some View {
         GeometryReader { geometry in

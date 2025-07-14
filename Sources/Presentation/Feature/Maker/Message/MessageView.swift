@@ -20,9 +20,7 @@ struct MessageView: View {
                     .bold()
                     .foregroundColor(.backgroundColor)
 
-                Button(action: {
-                    isPresented = false
-                }) {
+                Button(action: { isPresented = false }) {
                     Text("Dismiss")
                         .font(.orbitronHeadline)
                         .padding()

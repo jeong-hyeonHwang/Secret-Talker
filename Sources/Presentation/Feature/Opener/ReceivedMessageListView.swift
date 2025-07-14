@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReceivedMessageListView: View {
     @Binding var isExpanded: Bool
-    let qrList: [SecretMessage]
+    let qrList: [CreatedSecretMessage]
     var onExpandChanged: ((Bool) -> Void)?
     
     @GestureState private var dragOffset = CGSize.zero

@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MessageRowView: View {
-    let message: SecretMessage
+    let message: CreatedSecretMessage
     let action: () -> Void
 
     var body: some View {

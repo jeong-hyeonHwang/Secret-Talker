@@ -5,7 +5,6 @@
 //  Created by 황정현 on 7/3/25.
 //
 
-//import SwiftUICore.Color
 import SwiftUI
 
 protocol Status {

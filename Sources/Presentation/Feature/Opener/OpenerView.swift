@@ -9,21 +9,17 @@ import AVFoundation
 import SwiftData
 import SwiftUI
 
-import AVFoundation
-import SwiftData
-import SwiftUI
-
 struct OpenerView: View {
-    @Query var qrHistory: [SecretMessage]
+    @Query var qrHistory: [CreatedSecretMessage]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
     
     @State private var isSheetExpanded = false
     @StateObject private var cameraManager = CameraManager()
     
-    @State private var scannedPassword: String? = nil
-    @State private var scannedSecret: SecretMessage?
-    @State private var decryptedText: String? = nil
+    @State private var scannedPassword: String?
+    @State private var scannedSecret: CreatedSecretMessage?
+    @State private var decryptedText: String?
     @State private var isShowingSuccessMessage = false
     
     var body: some View {
@@ -47,7 +43,7 @@ struct OpenerView: View {
         .onAppear {
             cameraManager.configure()
         }
-        .onChange(of: cameraManager.scannedCode?.id) { code in
+        .onChange(of: cameraManager.scannedCode?.id) { _ in
             guard
                 let scanned = cameraManager.scannedCode,
                 let data = scanned.code.data(using: .utf8),
@@ -56,7 +52,7 @@ struct OpenerView: View {
                 print("QR 디코딩 실패")
                 return
             }
-            let secretMessage = SecretMessage(
+            let secretMessage = CreatedSecretMessage(
                 encryptedText: payload.encryptedText,
                 salt: payload.salt)
             
@@ -69,9 +65,14 @@ struct OpenerView: View {
                 cameraManager.pause()
             }
         }
-        .sheet(item: $scannedSecret) { message in
+        .sheet(item: $scannedSecret, onDismiss: {
+            if !isShowingSuccessMessage {
+                cameraManager.resume()
+            }
+        }) { message in
             UnlockView(message: message) { decrypted in
                 Task {
+                    cameraManager.pause()
                     await MainActor.run {
                         modelContext.insert(message)
                         decryptedText = decrypted
@@ -81,7 +82,11 @@ struct OpenerView: View {
                 }
             }
         }
-        .sheet(isPresented: $isShowingSuccessMessage) {
+        .sheet(isPresented: $isShowingSuccessMessage, onDismiss: {
+            if !isShowingSuccessMessage {
+                cameraManager.resume()
+            }
+        }) {
             if let decryptedText {
                 MessageView(isPresented: $isShowingSuccessMessage, message: decryptedText)
             }

@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct MakerView: View {
-    @Query var messages: [SecretMessage]
+    @Query var messages: [CreatedSecretMessage]
     @Environment(\.modelContext) private var modelContext
     
     @State private var isPresentingNew = false
-    @State private var selectedMessage: SecretMessage? = nil
+    @State private var selectedMessage: CreatedSecretMessage?
     
     var body: some View {
         GeometryReader { geo in
@@ -22,7 +22,7 @@ struct MakerView: View {
                     Spacer(minLength: 4)
                     RotatingShapeButtonView()
                         .frame(height: geo.size.height * 0.38)
-                    List() {
+                    List {
                         ForEach(messages) { message in
                             MessageRowView(message: message) {
                                 selectedMessage = message
