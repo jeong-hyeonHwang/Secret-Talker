@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-public struct UnlockView: View {
-    let message: CreatedSecretMessage
+public struct MessageResolverView: View {
+    let message: ScannedSecretMessage
     let onSuccess: (String) -> Void
     
     @State private var shapeRatio = 0.7
@@ -84,6 +84,7 @@ public struct UnlockView: View {
             }
         } else {
             feedbackText = "Falsum est."
+            password = ""
             Task {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)
                 await MainActor.run {

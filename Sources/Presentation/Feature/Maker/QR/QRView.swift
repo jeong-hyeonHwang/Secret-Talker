@@ -9,7 +9,7 @@ import SwiftUI
 import CoreImage.CIFilterBuiltins
 
 struct QRView: View {
-    let message: CreatedSecretMessage
+    let qrPayload: QRMessagePayload
 
     private let context = CIContext()
     private let filter = CIFilter.qrCodeGenerator()
@@ -20,7 +20,7 @@ struct QRView: View {
                 .font(.orbitronTitle2)
                 .bold()
 
-            if let uiImage = generateQRCode(from: message) {
+            if let uiImage = generateQRCode(from: qrPayload) {
                 Image(uiImage: uiImage)
                     .interpolation(.none)
                     .resizable()
@@ -35,12 +35,7 @@ struct QRView: View {
         .padding()
     }
 
-    func generateQRCode(from message: CreatedSecretMessage) -> UIImage? {
-        let payload = QRPayload(
-                encryptedText: message.encryptedText,
-                salt: message.salt
-        )
-        
+    func generateQRCode(from payload: QRMessagePayload) -> UIImage? {
         guard let data = try? JSONEncoder().encode(payload) else {
             print("QR 인코딩 실패")
             return nil

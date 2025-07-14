@@ -12,13 +12,14 @@ import Combine
 class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsDelegate {
     let session = AVCaptureSession()
     private var isConfigured = false
-
+    private var metadataOutput: AVCaptureMetadataOutput?
+    
     @Published var scannedCode: (code: String, id: UUID)?
-
+    
     func configure() {
         guard !isConfigured else { return }
         session.beginConfiguration()
-
+        
         guard
             let device = AVCaptureDevice.default(for: .video),
             let input = try? AVCaptureDeviceInput(device: device),
@@ -26,24 +27,25 @@ class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsD
         else {
             return
         }
-
+        
         session.addInput(input)
-
+        
         let output = AVCaptureMetadataOutput()
         if session.canAddOutput(output) {
             session.addOutput(output)
             output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             output.metadataObjectTypes = [.qr]
+            self.metadataOutput = output
         }
-
+        
         session.commitConfiguration()
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                self?.session.startRunning()
+            self?.session.startRunning()
             self?.isConfigured = true
         }
     }
-
+    
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
@@ -56,14 +58,33 @@ class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsD
             }
         }
     }
-
+    
     func pause() {
         session.stopRunning()
     }
-
+    
     func resume() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                self?.session.startRunning()
+            self?.session.startRunning()
         }
+    }
+}
+
+extension CameraManager {
+    func setROI(previewFrame: CGRect, roiFrame: CGRect) {
+        guard let output = metadataOutput else { return }
+        
+        let x = roiFrame.origin.y / previewFrame.height
+        let y = roiFrame.origin.x / previewFrame.width
+        let height = roiFrame.height / previewFrame.height
+        let width = roiFrame.width / previewFrame.width
+        
+        let roi = CGRect(x: x, y: y, width: height, height: width)
+        output.rectOfInterest = roi
+    }
+    
+    func setROI(normalizedROI: CGRect) {
+        guard let output = metadataOutput else { return }
+        output.rectOfInterest = normalizedROI
     }
 }
