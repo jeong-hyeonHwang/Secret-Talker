@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MessageRowView<T: QRMessageEncodable>: View {
+struct MessageRowItem<T: QRMessageEncodable>: View {
     let message: T
     let content: String
     let action: (_ message: T) -> Void

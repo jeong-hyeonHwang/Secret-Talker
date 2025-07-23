@@ -48,7 +48,7 @@ struct OpenerView: View {
 
                 List {
                     ForEach(messages) { message in
-                        MessageRowView(
+                        MessageRowItem(
                             message: message,
                             content: "\(message.scannedDate)"
                         ) {

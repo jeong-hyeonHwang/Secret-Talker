@@ -25,7 +25,7 @@ struct MakerView: View {
                     .background(Color.red.opacity(0.2))
                 List {
                     ForEach(messages) { message in
-                        MessageRowView(
+                        MessageRowItem(
                             message: message,
                             content: "\(message.createdDate)") {
                             selectedMessage = $0
