@@ -9,12 +9,15 @@ import Foundation
 import AVFoundation
 import Combine
 
-class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsDelegate {
+final class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsDelegate {
     let session = AVCaptureSession()
     private var isConfigured = false
     private var metadataOutput: AVCaptureMetadataOutput?
     
-    @Published var scannedCode: (code: String, id: UUID)?
+    private let scannedCodeSubject = PassthroughSubject<(code: String, id: UUID), Never>()
+    var scannedCodePublisher: AnyPublisher<(code: String, id: UUID), Never> {
+        scannedCodeSubject.eraseToAnyPublisher()
+    }
     
     func configure() {
         guard !isConfigured else { return }
@@ -52,7 +55,7 @@ class CameraManager: NSObject, ObservableObject, AVCaptureMetadataOutputObjectsD
         if let metadata = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
            metadata.type == .qr,
            let code = metadata.stringValue {
-            scannedCode = (code: code, id: UUID())
+            scannedCodeSubject.send((code: code, id: UUID()))
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 self?.session.stopRunning()
             }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RootView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     var body: some View {
         TabView {
             NavigationView {
@@ -19,7 +21,7 @@ struct RootView: View {
             }
             
             NavigationView {
-                OpenerView()
+                OpenerView(modelContext: modelContext)
                     .navigationTitle("Find out someone's story")
             }
             .tabItem {

@@ -49,7 +49,7 @@ struct PasswordInputView: View {
                                 .id("BOTTOM")
                         }.frame(
                             height: geo.size.height * 0.75)
-                            .onChange(of: password) { _ in
+                            .onChange(of: password) {
                                 // 패스워드가 변경될 때 스크롤 아래로 이동
                                 withAnimation {
                                     proxy.scrollTo("BOTTOM", anchor: .bottom)
