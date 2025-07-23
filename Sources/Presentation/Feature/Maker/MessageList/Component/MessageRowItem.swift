@@ -7,14 +7,17 @@
 
 import SwiftUI
 
-struct MessageRowView: View {
-    let message: CreatedSecretMessage
-    let action: () -> Void
+struct MessageRowItem<T: QRMessageEncodable>: View {
+    let message: T
+    let content: String
+    let action: (_ message: T) -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            action(message)
+        }) {
             VStack(alignment: .leading, spacing: 0) {
-                Text("\(message.salt)")
+                Text("\(content)")
                     .font(.orbitronCaption)
                     .foregroundColor(.gray)
                     .padding(8)

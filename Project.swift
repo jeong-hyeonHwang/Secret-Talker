@@ -11,21 +11,25 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen",
-                    "NSCameraUsageDescription": "QR 코드를 인식하기 위해 카메라 접근이 필요합니다."
+                    "NSCameraUsageDescription": "QR 코드를 인식하기 위해 카메라 접근이 필요합니다.",
+                    "UIAppFonts": [
+                        "Orbitron-Regular.ttf",
+                        "Orbitron-Bold.ttf"
+                    ]
                 ]
             ),
             sources: ["Sources/**"],
             resources: ["Resources/**"],
             scripts: [
-                    .pre(script: """
-export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
-if which swiftlint >/dev/null; then
-  swiftlint
-else
-  echo "warning: SwiftLint not installed"
-fi
-""", name: "SwiftLint")
-                  ],
+                .pre(script:"""
+            export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH
+            if which swiftlint >/dev/null; then
+              swiftlint
+            else
+              echo "warning: SwiftLint not installed"
+            fi
+            """, name: "SwiftLint")
+            ],
             dependencies: []
         ),
         .target(

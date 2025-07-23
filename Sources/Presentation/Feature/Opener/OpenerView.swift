@@ -10,35 +10,65 @@ import SwiftData
 import SwiftUI
 
 struct OpenerView: View {
-    @Query var qrHistory: [CreatedSecretMessage]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
-    
-    @State private var isSheetExpanded = false
+
+    @Query var messages: [ScannedSecretMessage]
+
     @StateObject private var cameraManager = CameraManager()
-    
-    @State private var scannedPassword: String?
-    @State private var scannedSecret: CreatedSecretMessage?
-    @State private var decryptedText: String?
+
+    @State private var scannedMessage: ScannedSecretMessage?
+    @State private var decryptedMessage: DecryptedMessage?
     @State private var isShowingSuccessMessage = false
-    
+
+    @State private var roiFrame: CGRect = .zero
+
     var body: some View {
-        ZStack {
-            CameraPreviewView(session: cameraManager.session)
-                .ignoresSafeArea()
-                .opacity(isSheetExpanded ? 0.2 : 1)
-            
-            ReceivedMessageListView(
-                isExpanded: $isSheetExpanded,
-                qrList: qrHistory,
-                onExpandChanged: { expanded in
-                    if expanded {
-                        cameraManager.pause()
-                    } else {
-                        cameraManager.resume()
+        GeometryReader { geo in
+            VStack(spacing: 4) {
+                Spacer(minLength: 4)
+                ZStack {
+                    GeometryReader { proxy in
+                        CameraPreviewView(session: cameraManager.session)
+                            .onAppear {
+                                updateROI(proxy: proxy)
+                            }
+                            .background(Color.clear)
+
+                        /* ROI 시각화 오버레이
+                        Rectangle()
+                            .stroke(Color.green, lineWidth: 2)
+                            .frame(width: roiFrame.width, height: roiFrame.height)
+                            .position(x: roiFrame.midX, y: roiFrame.midY)
+                        */
                     }
                 }
-            )
+                .frame(height: geo.size.height * 0.42)
+                .clipped()
+
+                List {
+                    ForEach(messages) { message in
+                        MessageRowItem(
+                            message: message,
+                            content: "\(message.scannedDate)"
+                        ) {
+                            scannedMessage = $0
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowInsets(EdgeInsets())
+                    }
+                    .onDelete(perform: delete)
+                }
+                .background(Color.backgroundColor)
+                .frame(height: geo.size.height * 0.58)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Verba decodite")
+                            .font(.orbitronTitle)
+                    }
+                }
+            }
+            .scrollContentBackground(.hidden)
         }
         .onAppear {
             cameraManager.configure()
@@ -47,16 +77,19 @@ struct OpenerView: View {
             guard
                 let scanned = cameraManager.scannedCode,
                 let data = scanned.code.data(using: .utf8),
-                let payload = try? JSONDecoder().decode(QRPayload.self, from: data)
+                let payload = try? JSONDecoder().decode(QRMessagePayload.self, from: data)
             else {
                 print("QR 디코딩 실패")
                 return
             }
-            let secretMessage = CreatedSecretMessage(
+            let scannedSecretMessage = ScannedSecretMessage(
                 encryptedText: payload.encryptedText,
-                salt: payload.salt)
-            
-            scannedSecret = secretMessage
+                salt: payload.salt,
+                createdDate: payload.createdDate
+            )
+
+            scannedMessage = scannedSecretMessage
+            modelContext.insert(scannedSecretMessage)
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
@@ -65,31 +98,63 @@ struct OpenerView: View {
                 cameraManager.pause()
             }
         }
-        .sheet(item: $scannedSecret, onDismiss: {
+        .sheet(item: $scannedMessage, onDismiss: {
             if !isShowingSuccessMessage {
                 cameraManager.resume()
             }
         }) { message in
-            UnlockView(message: message) { decrypted in
-                Task {
-                    cameraManager.pause()
-                    await MainActor.run {
-                        modelContext.insert(message)
-                        decryptedText = decrypted
-                        isShowingSuccessMessage = true
-                        scannedSecret = nil
+            MessageResolverView(
+                message: message,
+                onSuccess: { decryptedText in
+                    Task {
+                        cameraManager.pause()
+                        await MainActor.run {
+                            message.setAsSolved()
+                            self.decryptedMessage = DecryptedMessage(
+                                id: message.id,
+                                decryptedText: decryptedText
+                            )
+                            self.scannedMessage = nil
+                            self.isShowingSuccessMessage = true
+                        }
                     }
                 }
-            }
+            )
         }
-        .sheet(isPresented: $isShowingSuccessMessage, onDismiss: {
-            if !isShowingSuccessMessage {
-                cameraManager.resume()
-            }
-        }) {
-            if let decryptedText {
-                MessageView(isPresented: $isShowingSuccessMessage, message: decryptedText)
-            }
+        .sheet(item: $decryptedMessage, onDismiss: {
+            cameraManager.resume()
+        }) { message in
+            MessageView(message: message)
         }
+    }
+
+    func updateROI(proxy: GeometryProxy) {
+        var roi = proxy.frame(in: .global)
+        roi.origin.y = 0.0
+        
+        self.roiFrame = roi
+        let screen = UIScreen.main.bounds
+        guard screen.width > 0, screen.height > 0 else { return }
+
+        let normalized = CGRect(
+            x: 0.0,
+            y: roi.origin.x / screen.width,
+            width: roi.height / screen.height,
+            height: roi.width / screen.width
+        )
+        cameraManager.setROI(normalizedROI: normalized)
+    }
+
+    func delete(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(messages[index])
+        }
+    }
+}
+
+struct ROIFrameKey: PreferenceKey {
+    static var defaultValue: CGRect = .zero
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+        value = nextValue()
     }
 }

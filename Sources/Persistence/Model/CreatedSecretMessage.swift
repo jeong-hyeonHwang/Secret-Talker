@@ -22,3 +22,14 @@ class CreatedSecretMessage: Identifiable {
         self.createdDate = Date()
     }
 }
+
+extension CreatedSecretMessage: QRMessageEncodable {
+    func asPayload() -> QRMessagePayload {
+        QRMessagePayload(
+            id: id,
+            encryptedText: encryptedText,
+            salt: salt,
+            createdDate: createdDate
+        )
+    }
+}
