@@ -22,7 +22,6 @@ struct MakerView: View {
                 Spacer(minLength: 4)
                 RotatingShapeButtonView()
                     .frame(height: geo.size.height * 0.38)
-                    .background(Color.red.opacity(0.2))
                 List {
                     ForEach(messages) { message in
                         MessageRowItem(
