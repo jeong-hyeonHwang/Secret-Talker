@@ -7,7 +7,7 @@
 
 import UIKit.UINavigationBar
 
-enum NavigationAppearance {
+enum NavigationAppearance: AppearanceConfigurable {
     static func configure() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

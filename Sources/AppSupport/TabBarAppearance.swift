@@ -7,7 +7,7 @@
 
 import UIKit.UITabBar
 
-enum TabBarAppearance {
+enum TabBarAppearance: AppearanceConfigurable {
     static func configure() {
         let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
