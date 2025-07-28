@@ -18,7 +18,8 @@ struct CreateMessageView: View {
                 
                 MessageInputView(message: $messageViewModel.message)
                 PasswordInputView(password: $messageViewModel.password)
-
+                    .environment(\.shapeButtonStyle, ShapeButtonStyle(ratio: 0.6))
+                
                 Spacer()
                 
                 InputFeedbackView(creationStatus: $messageViewModel.creationStatus)
@@ -33,17 +34,10 @@ struct CreateMessageView: View {
     }
     
     func handleSubmit() {
-        guard messageViewModel.isCreationAvailable() else { return }
-        if let result = messageViewModel.encryptedMessage() {
-            let new = CreatedSecretMessage(
-                id: UUID(),
-                encryptedText: result.encryptedText,
-                salt: result.salt
-            )
-            onSubmit(new)
+        if let newMessage = messageViewModel.createMessage() {
+            onSubmit(newMessage)
+            dismiss()
         }
-        dismiss()
     }
-
 }
 

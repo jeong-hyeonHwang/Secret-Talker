@@ -15,7 +15,3 @@ struct InputFeedbackView: View {
             .foregroundColor(creationStatus.color)
     }
 }
-
-#Preview {
-    InputFeedbackView(creationStatus: State(initialValue: CreationStatus.common).projectedValue)
-}

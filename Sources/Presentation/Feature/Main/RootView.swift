@@ -8,23 +8,21 @@
 import SwiftUI
 
 struct RootView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     var body: some View {
         TabView {
             NavigationView {
-                MakerView()
+                MakerView(modelContext: modelContext)
                     .navigationTitle("Write down your Story")
             }
-            .tabItem {
-                Label("Maker", systemImage: "pencil.and.scribble")
-            }
+            .tabItem { Label("Maker", systemImage: "pencil.and.scribble") }
             
             NavigationView {
-                OpenerView()
+                OpenerView(modelContext: modelContext)
                     .navigationTitle("Find out someone's story")
             }
-            .tabItem {
-                Label("Opener", systemImage: "wand.and.sparkles")
-            }
+            .tabItem { Label("Opener", systemImage: "wand.and.sparkles") }
         }
         .background(Color.backgroundColor)
     }

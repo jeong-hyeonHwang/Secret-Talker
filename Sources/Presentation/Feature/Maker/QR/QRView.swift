@@ -10,17 +10,15 @@ import CoreImage.CIFilterBuiltins
 
 struct QRView: View {
     let qrPayload: QRMessagePayload
-
-    private let context = CIContext()
-    private let filter = CIFilter.qrCodeGenerator()
-
+    private let qrManager = QRManager()
+    
     var body: some View {
         VStack(spacing: 24) {
             Text("ENCRYPTION")
                 .font(.orbitronTitle2)
                 .bold()
-
-            if let uiImage = generateQRCode(from: qrPayload) {
+            
+            if let uiImage = qrManager.generateQRCode(from: qrPayload) {
                 Image(uiImage: uiImage)
                     .interpolation(.none)
                     .resizable()
@@ -33,20 +31,5 @@ struct QRView: View {
             }
         }
         .padding()
-    }
-
-    func generateQRCode(from payload: QRMessagePayload) -> UIImage? {
-        guard let data = try? JSONEncoder().encode(payload) else {
-            print("QR 인코딩 실패")
-            return nil
-        }
-        filter.setValue(data, forKey: "inputMessage")
-
-        if let output = filter.outputImage,
-           let cgimg = context.createCGImage(output, from: output.extent) {
-            return UIImage(cgImage: cgimg)
-        }
-
-        return nil
     }
 }

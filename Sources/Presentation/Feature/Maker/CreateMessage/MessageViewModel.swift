@@ -39,4 +39,15 @@ final class MessageViewModel: ObservableObject {
         }
         return encrypted
     }
+    
+    func createMessage() -> CreatedSecretMessage? {
+            guard isCreationAvailable() else { return nil }
+            guard let result = encryptedMessage() else { return nil }
+
+            return CreatedSecretMessage(
+                id: UUID(),
+                encryptedText: result.encryptedText,
+                salt: result.salt
+            )
+        }
 }
