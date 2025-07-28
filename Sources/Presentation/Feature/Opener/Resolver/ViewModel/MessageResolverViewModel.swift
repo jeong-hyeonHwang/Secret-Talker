@@ -32,7 +32,8 @@ public final class MessageResolverViewModel: ObservableObject {
 
     func checkPasswordAndDecrypt() {
         if let decrypted = CryptoManager.decrypt(encryptedText: message.encryptedText, base64Salt: message.salt, password: password) {
-            feedbackText = "Rectum est."
+            feedbackText = String(localized: "resolver_correct_msg")
+            
             Task {
                 try? await Task.sleep(nanoseconds: 500_000_000)
                 await MainActor.run {
@@ -40,7 +41,7 @@ public final class MessageResolverViewModel: ObservableObject {
                 }
             }
         } else {
-            feedbackText = "Falsum est."
+            feedbackText = String(localized: "resolver_incorrect_msg")
             password = ""
             Task {
                 try? await Task.sleep(nanoseconds: 1_000_000_000)

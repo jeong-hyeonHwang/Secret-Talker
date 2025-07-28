@@ -25,7 +25,8 @@ struct CreateMessageView: View {
                 InputFeedbackView(creationStatus: $messageViewModel.creationStatus)
                 RoundedShapeButton(
                     action: { handleSubmit() },
-                    title: "Mitte"
+                    title: String(localized: "btn_submit")
+                    
                 )
                 .padding(.horizontal)
             }

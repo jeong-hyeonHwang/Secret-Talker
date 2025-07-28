@@ -31,7 +31,7 @@ struct MessageResolverView: View {
                     Spacer()
                     Group {
                         if viewModel.password.isEmpty {
-                            Text("ENTER PASSWORD")
+                            Text(String(localized: "ph_enter_password"))
                                 .foregroundColor(.gray)
                                 .font(.orbitronTitle)
                                 .italic()
@@ -43,7 +43,7 @@ struct MessageResolverView: View {
                     }
 
                     Text(viewModel.feedbackText ?? " ")
-                        .foregroundColor(viewModel.feedbackText == "Rectum est." ? .green : .red)
+                        .foregroundColor(viewModel.feedbackText == String(localized: "resolver_correct_msg") ? .green : .red)
                         .font(.orbitronHeadline)
                         .opacity(viewModel.feedbackText == nil ? 0 : 1)
                         .fixedSize()
@@ -53,11 +53,11 @@ struct MessageResolverView: View {
 
                     RoundedShapeButton(
                         action: { viewModel.checkPasswordAndDecrypt() },
-                        title: "Mitte"
+                        title: String(localized: "btn_submit")
                     )
                     .padding(.horizontal)
 
-                    Button("Clear") {
+                    Button(String(localized: "btn_clear")) {
                         viewModel.clear()
                     }
                 }

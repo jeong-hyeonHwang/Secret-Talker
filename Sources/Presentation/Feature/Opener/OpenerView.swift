@@ -45,7 +45,7 @@ struct OpenerView: View {
             .scrollContentBackground(.hidden)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Verba decodite")
+                    Text(String(localized: "opener_title"))
                         .font(.orbitronTitle)
                 }
             }
