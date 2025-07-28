@@ -5,9 +5,9 @@
 //  Created by 황정현 on 7/22/25.
 //
 
-import UIKit
+import UIKit.UINavigationBar
 
-enum NavigationAppearance {
+enum NavigationAppearance: AppearanceConfigurable {
     static func configure() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

@@ -3,7 +3,12 @@ import SwiftUI
 @main
 struct SecretTalkerApp: App {
     init() {
-        NavigationAppearance.configure()
+        let configurables: [AppearanceConfigurable.Type] = [
+            NavigationAppearance.self,
+            TabBarAppearance.self
+        ]
+
+        configurables.forEach { $0.configure() }
     }
     
     var body: some Scene {
