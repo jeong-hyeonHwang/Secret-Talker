@@ -73,11 +73,11 @@ struct OpenerView: View {
                     Task {
                         cameraViewModel.pause()
                         await MainActor.run {
-                            openerViewModel.onSuccess(message, decryptedText: decryptedText)
+                            openerViewModel.onDecryptionSuccess(message, decryptedText: decryptedText)
                         }
                     }
                 }
-            )
+            ).environment(\.shapeButtonStyle, ShapeButtonStyle(ratio: 0.7))
         }
         .sheet(item: $openerViewModel.decryptedMessage, onDismiss: {
             cameraViewModel.resume()

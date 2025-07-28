@@ -38,7 +38,7 @@ final class OpenerViewModel: ObservableObject {
         modelContext.insert(message)
     }
 
-    func onSuccess(_ message: ScannedSecretMessage, decryptedText: String) {
+    func onDecryptionSuccess(_ message: ScannedSecretMessage, decryptedText: String) {
         message.setAsSolved()
         decryptedMessage = DecryptedMessage(id: message.id, decryptedText: decryptedText)
         scannedMessage = nil

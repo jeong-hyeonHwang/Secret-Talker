@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ShapeButton<S: Shape>: View {
-    let shape: S
-    var color: Color = .clear
-    let action: () -> Void
+struct ShapeButton: View {
+    let symbol: ShapeSymbol
+    let color: Color = Color.clear
     let ratio: CGFloat
+    let action: (ShapeSymbol.ID) -> Void
 
     var body: some View {
         GeometryReader { geometry in
@@ -21,19 +21,18 @@ struct ShapeButton<S: Shape>: View {
                 y: (geometry.size.height - side) / 2
             )
             let frame = CGRect(origin: origin, size: CGSize(width: side, height: side))
-            let shapePath = shape.path(in: frame)
+            let shapePath = symbol.shape.path(in: frame)
 
-            ZStack {
-                Button(action: action) {
-                    shape
-                        .fill(color)
-                        .overlay(shape.stroke(Color.foregroundColor, lineWidth: 2))
-                        .frame(width: side, height: side)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                }
-                .contentShape(shapePath)
-                .frame(width: geometry.size.width, height: geometry.size.height)
+            Button {
+                action(symbol.id)
+            } label: {
+                symbol.shape
+                    .fill(color)
+                    .overlay(symbol.shape.stroke(Color.foregroundColor, lineWidth: 2))
+                    .frame(width: side, height: side)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             }
+            .contentShape(shapePath)
         }
     }
 }
