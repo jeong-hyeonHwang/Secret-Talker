@@ -48,9 +48,6 @@
         }
       }
     },
-    "ENCRYPTION" : {
-
-    },
     "error_empty_message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -123,7 +120,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verba decodite"
+            "value" : "Verba arcana"
           }
         }
       }
@@ -145,7 +142,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verba arcana"
+            "value" : "Verba decodite"
           }
         }
       }
@@ -161,8 +158,26 @@
         }
       }
     },
-    "QR 생성 실패" : {
-
+    "qr_error_generation_failed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QR Generation Failed."
+          }
+        }
+      }
+    },
+    "qr_title_encryption" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ENCRYPTION"
+          }
+        }
+      }
     },
     "resolver_correct_msg" : {
       "extractionState" : "manual",
@@ -207,9 +222,6 @@
           }
         }
       }
-    },
-    "Verba decodite" : {
-
     }
   },
   "version" : "1.0"

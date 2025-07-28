@@ -32,7 +32,7 @@ struct MakerView: View {
                 .frame(height: geo.size.height * 0.62)
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text(String(localized: "opener_title"))
+                        Text(String(localized: "maker_title"))
                             .font(.orbitronTitle)
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {

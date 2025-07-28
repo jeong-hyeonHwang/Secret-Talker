@@ -14,7 +14,7 @@ struct QRView: View {
     
     var body: some View {
         VStack(spacing: 24) {
-            Text("ENCRYPTION")
+            Text(String(localized: "qr_title_encryption"))
                 .font(.orbitronTitle2)
                 .bold()
             
@@ -26,7 +26,7 @@ struct QRView: View {
                     .frame(width: 240, height: 240)
                     .padding()
             } else {
-                Text("QR 생성 실패")
+                Text(String(localized: "qr_error_generation_failed"))
                     .foregroundColor(.red)
             }
         }
