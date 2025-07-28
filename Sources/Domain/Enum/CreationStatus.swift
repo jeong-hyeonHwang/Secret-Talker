@@ -22,15 +22,15 @@ extension CreationStatus: Status {
         case .common:
             return ""
         case .emptyMessage:
-            return "메시지를 입력해주세요."
+            return String(localized: "error_empty_message")
         case .emptyPassword:
-            return "비밀번호를 입력해주세요."
+            return String(localized: "error_empty_password")
         case .invalidMessage:
-            return "불가능한 메시지입니다."
+            return String(localized: "error_invalid_message")
         case .invalidPassword:
-            return "불가능한 비밀번호입니다."
+            return String(localized: "error_invalid_password")
         case .failedEncryption:
-            return "암호화에 실패했습니다."
+            return String(localized: "error_failed_encryption")
         }
     }
     

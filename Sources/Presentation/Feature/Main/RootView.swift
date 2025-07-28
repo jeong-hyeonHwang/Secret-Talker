@@ -7,23 +7,30 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct RootView: View {
     @Environment(\.modelContext) private var modelContext
-    
+
     var body: some View {
         TabView {
             NavigationView {
                 MakerView(modelContext: modelContext)
-                    .navigationTitle("Write down your Story")
+                    .navigationTitle(String(localized: "maker_caption"))
             }
-            .tabItem { Label("Maker", systemImage: "pencil.and.scribble") }
-            
+            .tabItem {
+                Label(String(localized: "tab_maker_label"), systemImage: "pencil.and.scribble")
+            }
+
             NavigationView {
                 OpenerView(modelContext: modelContext)
-                    .navigationTitle("Find out someone's story")
+                    .navigationTitle(String(localized: "opener_caption"))
             }
-            .tabItem { Label("Opener", systemImage: "wand.and.sparkles") }
+            .tabItem {
+                Label(String(localized: "tab_opener_label"), systemImage: "wand.and.sparkles")
+            }
         }
         .background(Color.backgroundColor)
     }
 }
+

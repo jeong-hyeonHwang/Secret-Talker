@@ -15,7 +15,7 @@ struct PasswordInputView: View {
         GeometryReader { geo in
             VStack(spacing: 8) {
                 // 열쇠를 입력하라.
-                Text("Clave insere")
+                Text(String(localized: "creator_write_password"))
                     .font(.orbitronHeadline)
                 
                 HStack(spacing: 16) {
