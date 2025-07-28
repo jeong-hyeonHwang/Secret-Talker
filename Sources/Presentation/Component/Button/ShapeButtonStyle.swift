@@ -5,7 +5,7 @@
 //  Created by 황정현 on 7/28/25.
 //
 
-import SwiftUICore
+import SwiftUI
 
 struct ShapeButtonStyle {
     let ratio: CGFloat
