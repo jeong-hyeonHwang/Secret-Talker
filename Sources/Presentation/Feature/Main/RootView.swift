@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct RootView: View {
     @Environment(\.modelContext) private var modelContext
 
