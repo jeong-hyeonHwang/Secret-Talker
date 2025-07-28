@@ -4,6 +4,7 @@ import SwiftUI
 struct SecretTalkerApp: App {
     init() {
         NavigationAppearance.configure()
+        TabBarAppearance.configure()
     }
     
     var body: some Scene {
