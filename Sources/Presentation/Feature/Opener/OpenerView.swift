@@ -12,7 +12,8 @@ import SwiftUI
 struct OpenerView: View {
     @Environment(\.scenePhase) private var scenePhase
     
-    @Query var messages: [ScannedSecretMessage]
+    @Query(sort: [SortDescriptor<ScannedSecretMessage>(\.createdDate, order: .reverse)])
+    var messages: [ScannedSecretMessage]
     
     @StateObject private var cameraViewModel: CameraViewModel = CameraViewModel()
     @StateObject private var openerViewModel: OpenerViewModel

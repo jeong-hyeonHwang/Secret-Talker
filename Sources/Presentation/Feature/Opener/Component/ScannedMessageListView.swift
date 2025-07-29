@@ -13,11 +13,15 @@ struct ScannedMessageListView: View {
 
     var body: some View {
         List {
-            ForEach(messages) { message in
+            ForEach(Array(messages.enumerated()), id: \.element.id) { index, message in
+                let displayIndex = messages.count - index
+
                 MessageRowItem(
                     message: message,
-                    content: "\(message.scannedDate)"
-                ) { openerViewModel.scannedMessage = $0 }
+                    content: "REC \(displayIndex): \(message.createdDate.displayDateTimeString())"
+                ) { message in
+                    openerViewModel.scannedMessage = message
+                }
                 .listRowBackground(Color.clear)
                 .listRowInsets(EdgeInsets())
             }
